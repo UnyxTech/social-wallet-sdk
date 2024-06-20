@@ -9,12 +9,12 @@ export const recoverSeedWords = (shareA: string, shareB: string) => {
 };
 
 export const getEthPrivateKeyFromSeedWords =  (seedWords: string) => {
-  const eth = ethers.Wallet.fromMnemonic(seedWords);
+  const eth = ethers.Wallet.fromPhrase(seedWords);
   return eth.privateKey
 }
 
 export const getEthAddressFromSeedWords =  (seedWords: string) => {
-  const eth = ethers.Wallet.fromMnemonic(seedWords);
+  const eth = ethers.Wallet.fromPhrase(seedWords);
   return eth.getAddress()
 }
 

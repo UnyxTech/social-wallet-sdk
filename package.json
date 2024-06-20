@@ -1,6 +1,6 @@
 {
   "name": "@tomo-inc/social-wallet-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "tomo social wallet sdk.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,7 +25,7 @@
     "@types/crypto-js": "4.2.0",
     "axios": "^1.6.7",
     "crypto-js": "4.2.0",
-    "ethers": "5.0.8",
+    "ethers": "^6.13.1",
     "js-sha256": "^0.11.0",
     "shamirs-secret-sharing-ts": "^1.0.2"
   },
