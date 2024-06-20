@@ -1,9 +1,11 @@
-import { googleId } from './constant'
+import { googleId, redirectUri } from './constant'
 import { emailCheck, loginByGmail, loginCode, loginVerify, sendRegister, setApi, verifyRegister } from './utils/apiUtils'
 import { getEmailReq, removeEmailReq, removeUserInfo, setEmailReq, setUserToken } from "./utils/LocalstorageUtils";
 import { getEthAddress, getEthPrivateKey, getUserInfoFromLocalFirst } from './utils/utils'
 import { decryptInfo } from './utils/decryptUtils'
+import { openWindow } from './utils/windowUtils'
 
+export type LoginType = 'google'
 export class TomoSDK {
   static setDevApi() {
     setApi({isDev: true})
@@ -21,6 +23,35 @@ export class TomoSDK {
 
   getGoogleAuthId() {
     return googleId
+  }
+
+  login(type: LoginType) {
+    if (type !== 'google') {
+      throw new Error('Unsupported login type.')
+    }
+
+    return new Promise((resolve, reject) => {
+      const origin = window.location.origin
+      openWindow({
+        url:`https://accounts.google.com/o/oauth2/v2/auth?response_type=id_token&client_id=479465761311-5da6b2ic7io7odr9jnrldai20046vk4t.apps.googleusercontent.com&scope=openid&access_type=offline&state=${origin}&nonce=testnonce&prompt=select_account&redirect_uri=${redirectUri}`,
+        name: 'Google login'
+      })
+  
+      window.onmessage = ({ origin, data: {type, data} }) => {
+        if (origin === 'https://dashboard-dev.tomo.inc' && type === 'tomo-google-authorized' && data.code) {
+          this.loginByGoogle(data.code).then((result: boolean) => {
+            if (result) {
+              resolve(true)
+            } else {
+              resolve(false)
+            }
+          }).catch(() => {
+            resolve(false)
+          })
+        }
+      }
+    })
+    
   }
 
   async loginByGoogle(code: string) {

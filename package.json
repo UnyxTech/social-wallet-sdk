@@ -1,6 +1,6 @@
 {
   "name": "@tomo-inc/social-wallet-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "tomo social wallet sdk.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
